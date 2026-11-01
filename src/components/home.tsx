@@ -15,13 +15,41 @@ import {
   Sparkles,
   Star,
 } from 'lucide-react';
-import { useState } from 'react';
-import { Nav, Footer, CheckLine, DoodleArrow } from '@/components/ui';
-import { templates } from '@/lib/templates';
+import { useEffect, useState } from 'react';
+import { Nav, Footer, CheckLine, DoodleArrow, Modal } from '@/components/ui';
+import { FormRenderer } from '@/components/form-renderer';
+import { templates, templateDefinition } from '@/lib/templates';
 import { homeFaqs } from '@/lib/site-content';
+import type { FormDefinition } from '@/lib/types';
+
+const feedback = templateDefinition('feedback');
+const demoDefinition: FormDefinition = {
+  ...feedback,
+  layout: 'conversation',
+  description:
+    'Try three questions, one at a time. This preview does not send or save your answers.',
+  fields: feedback.fields.filter((field) => field.type !== 'email'),
+  successTitle: 'That’s a Scribble form.',
+  successMessage: 'Your turn? Create a free account and make something worth answering.',
+};
 export default function Home() {
   const [choice, setChoice] = useState('The good vibes');
   const [rating, setRating] = useState(4);
+  const [preview, setPreview] = useState(false);
+  useEffect(() => {
+    // Keep previously shared demo links useful as well as the homepage button.
+    const openDemo = () => {
+      if (window.location.hash === '#playground') setPreview(true);
+    };
+    openDemo();
+    window.addEventListener('hashchange', openDemo);
+    return () => window.removeEventListener('hashchange', openDemo);
+  }, []);
+  function closePreview() {
+    setPreview(false);
+    if (window.location.hash === '#playground')
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
   return (
     <>
       <Nav />
@@ -50,9 +78,14 @@ export default function Home() {
               <Link href="/builder/new" className="button button-yellow">
                 Make your first form <ArrowUpRight size={20} />
               </Link>
-              <Link href="#playground" className="text-link">
-                Take it for a spin <MoveRight size={18} />
-              </Link>
+              <button
+                type="button"
+                className="text-link"
+                aria-haspopup="dialog"
+                onClick={() => setPreview(true)}
+              >
+                Take it for a spin <MoveRight size={18} aria-hidden="true" />
+              </button>
             </div>
             <div className="hero-checks">
               <CheckLine>Free for everyone</CheckLine>
@@ -380,6 +413,13 @@ export default function Home() {
         </section>
       </main>
       <Footer />
+      {preview && (
+        <Modal title="Take Scribble for a spin" onClose={closePreview} wide>
+          <div className="preview-frame">
+            <FormRenderer definition={demoDefinition} preview />
+          </div>
+        </Modal>
+      )}
     </>
   );
 }
