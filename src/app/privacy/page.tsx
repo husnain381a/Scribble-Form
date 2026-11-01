@@ -15,37 +15,35 @@ export default function Page() {
           <span className="handwritten coral">deserve care.</span>
         </h1>
         <p className="info-lead">
-          Here’s how this application handles data. The organization running this instance is
-          responsible for its privacy policy and legal obligations.
+          Here is how Scribble handles your account, forms, and responses. The organization running
+          this instance is responsible for its privacy policy and legal obligations.
         </p>
-        <h2>In the local sandbox</h2>
+        <h2>Your account and forms</h2>
         <p>
-          Forms and responses are saved in your browser’s local storage. Uploaded test files are
-          saved in IndexedDB in the same browser. They don’t sync between devices or browser
-          profiles. Clearing browser data removes them. Anyone using your browser profile may be
-          able to access them.
+          You need to sign up or sign in to create and manage forms. Your account keeps your drafts,
+          published forms, and responses together. Within the application, only the form owner can
+          read drafts and responses or download attached files.
         </p>
-        <h2>With Supabase connected</h2>
+        <h2>When you share a form</h2>
         <p>
-          Accounts, forms, and responses are stored in the host’s Supabase project. Published form
-          questions are accessible to anyone with the form’s link. Drafts and responses are
-          restricted to the account owning the form through database row-level security. Uploaded
-          files use a private bucket with short-lived owner download links.
+          Anyone with a published form link can read its questions and submit a response without
+          creating an account. Respondents cannot browse other responses. Uploaded files are
+          private, and authorized download links expire shortly after they are issued.
         </p>
-        <h2>A word about “private”</h2>
+        <h2>A word about privacy</h2>
         <p>
-          This is access control, not end-to-end encryption. The form owner, hosting administrators,
-          and infrastructure providers may be able to access stored data. Don’t collect passwords,
-          payment card details, or highly sensitive information through this general-purpose form
-          builder.
+          These are access controls, not end-to-end encryption. The form owner, hosting
+          administrators, and infrastructure providers may be able to access stored data. Do not
+          collect passwords, payment card details, or highly sensitive information through this
+          general-purpose form builder.
         </p>
         <h2>What the application collects</h2>
         <p>
-          The answers and files a respondent submits, the form version, a random response
-          identifier, and the submission time. Cloud endpoints also use a short-lived, hashed
-          network identifier to limit abuse. The application includes no advertising trackers or
-          analytics pixels. Infrastructure providers may maintain operational logs under their own
-          policies.
+          Your account email address, the forms you create, the answers and files a respondent
+          submits, the form version, a random response identifier, and the submission time. The
+          service also uses a short-lived, hashed network identifier to limit abuse. The application
+          includes no advertising trackers or analytics pixels. Hosting providers may keep
+          operational logs under their own policies.
         </p>
         <h2>Control and deletion</h2>
         <p>
@@ -54,11 +52,10 @@ export default function Page() {
           of this instance. The operator should publish a contact address and retention period
           before accepting real-world responses.
         </p>
-        <h2>Authentication</h2>
+        <h2>Signing in</h2>
         <p>
-          Supabase manages account credentials. The app uses the browser’s local session storage
-          mechanism provided by the Supabase client. Signing out removes the app session on this
-          device.
+          Your sign-in session is saved on this device so you can return to your workspace. Sign out
+          when using a shared device. Signing out removes the application session on that device.
         </p>
       </main>
       <Footer />

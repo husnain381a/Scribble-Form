@@ -1,6 +1,6 @@
 # Deploy Scribble on Vercel + Supabase
 
-The app works without credentials in a **local sandbox**. Sandbox links and data stay in that browser; they are not public forms. Cloud mode starts after a user signs into your configured Supabase project. Local drafts are not automatically copied into cloud accounts.
+Creators must sign up or sign in before creating or managing forms. Published forms allow anonymous responses. The public marketing pages render without keys, but account access and form creation fail closed until Supabase is configured.
 
 ## 1. Database and private storage
 
@@ -18,7 +18,7 @@ npx supabase db push
 
 Do not run the same migration by both methods. It creates forms, immutable versions, submissions, upload tickets, rate limits, row-level policies, transactional functions, and a private `scribble-uploads` bucket. Anonymous roles get no table or bucket access. Public traffic goes through Next.js endpoints.
 
-For a local Supabase stack, install Docker, run `npx supabase start` and `npx supabase db reset`, and use the local project's values in your environment. The normal sandbox requires neither Docker nor Supabase.
+For a local Supabase stack, install Docker, run `npx supabase start` and `npx supabase db reset`, and use the local project's values in your environment.
 
 ## 2. Environment
 
@@ -40,15 +40,15 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 Never add a server secret to a `NEXT_PUBLIC_` variable, a source file, or a Git commit. The server-only Supabase client is created per request and never inherits a browser session.
 
-For a local run on port 3005, set `APP_ORIGIN=http://127.0.0.1:3005` and use that exact origin consistently. Different ports and `localhost` vs `127.0.0.1` have separate sandbox storage and sessions.
+For a local run on port 3005, set `APP_ORIGIN=http://127.0.0.1:3005` and use that exact origin consistently. Different ports and `localhost` vs `127.0.0.1` have separate sessions.
 
-For public discovery, set `NEXT_PUBLIC_SITE_URL` to the same production origin. The default is `https://scribble-forms.vercel.app`; change it for a fork. Optional `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` values are public ownership meta tags. See [DISCOVERY.md](DISCOVERY.md) for the search launch checklist.
+For public discovery, set `NEXT_PUBLIC_SITE_URL` to the same production origin. The default is `https://scribble-form.vercel.app`; change it for a fork. Optional `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` values are public ownership meta tags. See [DISCOVERY.md](DISCOVERY.md) for the search launch checklist.
 
 ## 3. Supabase Auth
 
 - Enable email/password login. Keep email confirmation enabled for a public service.
-- Set the site URL to your production origin.
-- Add `https://YOUR_HOST/workspace` and `https://YOUR_HOST/login?recovery=1` to allowed redirect URLs. Add equivalent localhost URLs for development.
+- Set the site URL to `https://scribble-form.vercel.app` (or your own production origin for a fork).
+- Add `https://scribble-form.vercel.app/workspace` and `https://scribble-form.vercel.app/login?recovery=1` to allowed redirect URLs. Use your own host for a fork and add equivalent localhost URLs for development.
 - Configure a transactional SMTP service before opening registration to the public. Supabase's default email service has delivery restrictions and rate limits.
 - Set password rules, signup rate limits, and any provider-side abuse protections for your audience.
 - Create and confirm your own account through the app. The app includes signup, sign-in, email confirmation, password recovery, password reset, and sign-out.

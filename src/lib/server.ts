@@ -16,10 +16,7 @@ export class ApiError extends Error {
 const url = () => process.env.NEXT_PUBLIC_SUPABASE_URL;
 export function admin() {
   if (!url() || !process.env.SUPABASE_SECRET_KEY)
-    throw new ApiError(
-      'Cloud publishing is not configured yet. The host needs to add the Supabase environment values.',
-      503,
-    );
+    throw new ApiError('This service is temporarily unavailable. Please try again later.', 503);
   return createClient(url()!, process.env.SUPABASE_SECRET_KEY, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
@@ -41,7 +38,7 @@ export function checkOrigin(request: Request) {
   const origin = request.headers.get('origin');
   const expected = process.env.APP_ORIGIN;
   if (process.env.NODE_ENV === 'production' && !expected)
-    throw new ApiError('The host needs to configure APP_ORIGIN before accepting responses.', 503);
+    throw new ApiError('This service is temporarily unavailable. Please try again later.', 503);
   if (!origin) return;
   const local =
     process.env.NODE_ENV !== 'production' &&
@@ -87,10 +84,7 @@ export function validId(id: string) {
 export async function limit(request: Request, scope: string, max: number) {
   const secret = process.env.RATE_LIMIT_SECRET;
   if (!secret || secret.length < 32)
-    throw new ApiError(
-      'The host needs to configure the rate-limit secret before accepting public traffic.',
-      503,
-    );
+    throw new ApiError('This service is temporarily unavailable. Please try again later.', 503);
   const ip = process.env.VERCEL
     ? request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown'
     : 'local-development';

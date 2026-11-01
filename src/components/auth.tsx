@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, Eye, EyeOff, Feather, Heart } from 'lucide-react';
 import { Logo } from './ui';
 import { supabase, cloudConfigured } from '@/lib/supabase';
+import { accountDestination, authErrorMessage } from '@/lib/auth-routing';
 export function Auth() {
   const [mode, setMode] = useState<'login' | 'signup' | 'forgot' | 'reset'>('login');
   const [email, setEmail] = useState('');
@@ -12,8 +13,12 @@ export function Auth() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [destination, setDestination] = useState('/workspace');
   useEffect(() => {
-    if (new URLSearchParams(location.search).get('recovery') === '1') setMode('reset');
+    const params = new URLSearchParams(location.search);
+    setDestination(accountDestination(params.get('next')));
+    if (params.get('mode') === 'signup') setMode('signup');
+    if (params.get('recovery') === '1') setMode('reset');
     if (!supabase) return;
     const { data } = supabase.auth.onAuthStateChange((event) => {
       if (event === 'PASSWORD_RECOVERY') setMode('reset');
@@ -36,7 +41,7 @@ export function Auth() {
       } else if (mode === 'reset') {
         const { error } = await supabase.auth.updateUser({ password });
         if (error) throw error;
-        location.href = '/workspace';
+        location.href = destination;
       } else if (mode === 'signup') {
         const { data, error } = await supabase.auth.signUp({
           email,
@@ -44,15 +49,15 @@ export function Auth() {
           options: { emailRedirectTo: `${location.origin}/workspace` },
         });
         if (error) throw error;
-        if (data.session) location.href = '/workspace';
+        if (data.session) location.href = destination;
         else setMessage('Check your inbox to confirm your email. Then come back and sign in.');
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        location.href = '/workspace';
+        location.href = destination;
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Something went wrong. Please try again.');
+      setError(authErrorMessage(e));
     } finally {
       setBusy(false);
     }
@@ -115,18 +120,11 @@ export function Auth() {
           </p>
           {!cloudConfigured ? (
             <div className="auth-setup">
-              <span className="setup-tag">LOCAL SANDBOX</span>
-              <h3>Your app is ready for its cloud keys.</h3>
+              <h3>Sign-in is temporarily unavailable.</h3>
               <p>
-                Add the Supabase values from <code>.env.example</code> to enable accounts, cloud
-                storage, and forms anyone can answer.
+                Please try again a little later. Your account is required to create and manage
+                forms.
               </p>
-              <Link href="/workspace" className="button button-dark">
-                Explore the local workspace <ArrowRight size={17} />
-              </Link>
-              <Link href="/setup" className="text-link">
-                View setup instructions <ArrowUpRightIcon />
-              </Link>
             </div>
           ) : (
             <>
@@ -212,7 +210,7 @@ export function Auth() {
                 </button>
               </p>
               <p className="auth-privacy">
-                Your account and form data are stored with this host’s Supabase project.{' '}
+                Your account keeps your forms and responses together.{' '}
                 <Link href="/privacy">Read about privacy.</Link>
               </p>
             </>
@@ -225,7 +223,4 @@ export function Auth() {
       </section>
     </main>
   );
-}
-function ArrowUpRightIcon() {
-  return <ArrowRight size={15} />;
 }

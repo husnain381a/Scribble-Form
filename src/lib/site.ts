@@ -10,11 +10,11 @@ export const SITE_KEYWORDS = [
   'self-hosted forms',
 ] as const;
 export const SITE_URL = new URL(
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://scribble-forms.vercel.app',
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://scribble-form.vercel.app',
 ).origin;
 export const GITHUB_URL = 'https://github.com/husnain381a/Scribble-Forms';
 export const SITE_DESCRIPTION =
-  'Create surveys, sign-up forms, and feedback with Scribble, a free open-source form builder. Customize themes, use conditional questions, and host it yourself.';
+  'Create surveys, sign-up forms, and feedback with Scribble, a free open-source form builder. Sign up, customize your questions and themes, and share your form.';
 
 export const publicPages = [
   {
@@ -40,7 +40,7 @@ export const publicPages = [
     name: 'Form builder FAQ: pricing, privacy, and hosting',
     keywords: ['form builder FAQ', 'form privacy', 'free form software', 'form hosting'],
     description:
-      'Learn how Scribble forms work: free features, question types, conditional logic, file uploads, private responses, CSV exports, and self-hosting with Supabase.',
+      'Learn how Scribble forms work: free accounts, question types, conditional logic, file uploads, private responses, sharing links, and CSV exports.',
   },
   {
     path: '/open-source',
@@ -56,15 +56,10 @@ export const publicPages = [
   },
   {
     path: '/setup',
-    name: 'Self-host Scribble with Next.js and Supabase',
-    keywords: [
-      'self-hosted form builder',
-      'Next.js forms',
-      'Supabase forms',
-      'Vercel form hosting',
-    ],
+    name: 'Getting started with your free Scribble account',
+    keywords: ['create a form', 'free form account', 'publish forms', 'share forms'],
     description:
-      'Set up your own Scribble form builder with Node.js, Supabase, and Vercel. Follow the repository guide for database migrations, Auth, private storage, and deployment.',
+      'Create a free Scribble account, choose a template, customize your questions, publish your form, and review responses. Follow this simple getting-started guide.',
   },
   {
     path: '/privacy',
@@ -76,7 +71,7 @@ export const publicPages = [
       'private file uploads',
     ],
     description:
-      'Understand how Scribble handles form answers, browser-local data, accounts, and private file uploads, including owner access, deletion, and hosting responsibilities.',
+      'Understand how Scribble handles accounts, form answers, and private file uploads, including sharing, owner access, deletion, and hosting responsibilities.',
   },
 ] as const;
 

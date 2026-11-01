@@ -12,7 +12,7 @@ import {
   X,
 } from 'lucide-react';
 import { useApp } from './provider';
-import { Logo, Loading, ErrorBox, Modal, LocalNotice } from './ui';
+import { Logo, Loading, ErrorBox, Modal } from './ui';
 import { csvCell, formatDate } from '@/lib/forms';
 import { downloadFile } from '@/lib/repository';
 import type { Answer, FileAnswer, FormRecord, Submission } from '@/lib/types';
@@ -104,7 +104,6 @@ export function Responses({ id }: { id: string }) {
           </Link>
         )}
       </header>
-      <LocalNotice />
       <main id="main" className="responses-content">
         {loading ? (
           <Loading />
@@ -270,7 +269,7 @@ export function Responses({ id }: { id: string }) {
                       className="file-download"
                       onClick={async () => {
                         try {
-                          await downloadFile(detail.answers[f.id] as FileAnswer, cloud);
+                          await downloadFile(detail.answers[f.id] as FileAnswer);
                         } catch (e) {
                           toast(e instanceof Error ? e.message : 'Download failed.');
                         }

@@ -1,5 +1,6 @@
-import { Nav, Footer } from '@/components/ui';
 import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import { Nav, Footer } from '@/components/ui';
 import { StructuredData } from '@/components/structured-data';
 import { breadcrumbSchema, pageMetadata } from '@/lib/seo';
 import { GITHUB_URL } from '@/lib/site';
@@ -7,77 +8,77 @@ export const metadata = pageMetadata('/setup');
 export default function Page() {
   return (
     <>
-      <StructuredData data={breadcrumbSchema('Self-hosting guide', '/setup')} />
+      <StructuredData data={breadcrumbSchema('Getting started', '/setup')} />
       <Nav />
       <main id="main" className="info-page section-wrap">
-        <span className="eyebrow">A HOME FOR YOUR GOOD IDEAS</span>
+        <span className="eyebrow">YOUR NEXT GOOD CONVERSATION</span>
         <h1>
-          From sandbox
+          From a question
           <br />
-          <span className="handwritten coral">to out in the world.</span>
+          <span className="handwritten coral">to a connection.</span>
         </h1>
         <p className="info-lead">
-          Self-host Scribble with Next.js and Supabase to publish shared forms from an instance you
-          control. The GitHub repository includes the database migrations, owner access policies,
-          private file storage, and deployment instructions. You need Node.js 22 or later and your
-          own hosting accounts.
+          Start with a free account. Make a form that feels like you, share it with your people, and
+          keep every response in one place.
         </p>
         <ol className="setup-steps">
           <li>
-            <h2>Create your Supabase project.</h2>
+            <h2>Make yourself at home.</h2>
             <p>
-              Use a new project, or a separate namespace in a project you control. Run every SQL
-              file in <code>supabase/migrations/</code> in filename order using the SQL editor, or
-              run <code>supabase db push</code> from the repository.
+              Sign up with your email address, confirm your email, and sign in. Your account is
+              where your forms and responses live.
             </p>
           </li>
           <li>
-            <h2>Add your environment values.</h2>
+            <h2>Start asking.</h2>
             <p>
-              Copy <code>.env.example</code> to <code>.env.local</code>. Set the Supabase URL,
-              publishable key, server-only secret key, rate-limit secret, and app origin.
+              Choose a template or a blank form. Add names, stories, choices, ratings, files, and
+              anything else you need from the available question types.
             </p>
           </li>
           <li>
-            <h2>Run it locally.</h2>
+            <h2>Give it some personality.</h2>
             <p>
-              <code>npm ci</code>, then <code>npm run dev</code>. Open the local URL, create an
-              account, and publish your first cloud form.
+              Pick your colors, typography, and layout. Add conditional questions and a thank-you
+              message, then preview your form on a phone or desktop.
             </p>
           </li>
           <li>
-            <h2>Deploy on Vercel.</h2>
+            <h2>Send it into the world.</h2>
             <p>
-              Import the repository, choose Next.js, and add the same environment values. Set{' '}
-              <code>APP_ORIGIN</code> and <code>NEXT_PUBLIC_SITE_URL</code> to your deployed URL and
-              allow that URL in Supabase Auth redirect settings. Keep email confirmation enabled;
-              configure SMTP for a public service.
+              Publish your form and share its link. People can answer without creating an account.
+              Close the form whenever you want to stop accepting responses.
             </p>
           </li>
           <li>
-            <h2>Check the whole conversation.</h2>
+            <h2>Find the story in your answers.</h2>
             <p>
-              Publish a form, open its link in a separate browser, submit a response and a file, and
-              verify only the owner can read them. The included cloud verification script checks the
-              API and database access boundaries using test accounts you provide.
+              Open your response dashboard to review submissions, download attachments, search
+              answers, and export a CSV. Your drafts and responses stay private to your account
+              within the application.
             </p>
           </li>
         </ol>
+        <div className="modal-actions">
+          <Link href="/login?mode=signup&next=%2Fbuilder%2Fnew" className="button button-dark">
+            Create your free account <ArrowUpRight size={17} />
+          </Link>
+          <Link href="/templates" className="button">
+            Explore templates
+          </Link>
+        </div>
         <p>
-          Follow the{' '}
+          Want to run your own instance? The{' '}
           <a
-            href={`${GITHUB_URL}/blob/main/docs/DEPLOYMENT.md`}
+            href={GITHUB_URL + '/blob/main/docs/DEPLOYMENT.md'}
             target="_blank"
             rel="noopener noreferrer"
             className="text-link"
           >
-            complete deployment guide on GitHub
+            developer and self-hosting guide
           </a>{' '}
-          for exact commands, environment requirements, and maintenance details.
+          is on GitHub.
         </p>
-        <Link href="/workspace" className="button button-dark">
-          Explore your workspace →
-        </Link>
       </main>
       <Footer />
     </>

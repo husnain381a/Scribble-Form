@@ -8,5 +8,5 @@ export function GET() {
     process.env.RATE_LIMIT_SECRET.length >= 32 &&
     process.env.APP_ORIGIN,
   );
-  return json({ status: ready ? 'configured' : 'local-sandbox', cloudConfigured: ready });
+  return json({ status: ready ? 'configured' : 'unavailable', cloudConfigured: ready });
 }

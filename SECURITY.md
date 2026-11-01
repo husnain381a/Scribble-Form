@@ -24,7 +24,7 @@ Run `npm test`, `npm run typecheck`, and `npm run build`. With the production ap
 
 Use HTTPS in production, keep email confirmation enabled, choose strong account passwords, configure the provider's Auth rate limits and password requirements, and rotate any exposed server credential. Supabase's leaked-password screening is a Pro-plan feature; this app does not purchase or silently enable paid services.
 
-Rate limiting is not a complete anti-bot or DDoS solution. File types and sizes are checked but contents are not virus-scanned. Operators must configure backups, retention, upload cleanup, email delivery, and a private security-reporting contact before a public launch. The local sandbox is browser-profile storage and is not private from other people using that profile.
+Rate limiting is not a complete anti-bot or DDoS solution. File types and sizes are checked but contents are not virus-scanned. Operators must configure backups, retention, upload cleanup, email delivery, and a private security-reporting contact before a public launch. Form creation and owner tools require sign-in. The repository has no unauthenticated persistence fallback; direct database and owner API access remain protected independently of the client gate.
 
 ## Reporting a vulnerability
 

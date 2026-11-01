@@ -26,10 +26,9 @@ import {
 } from 'lucide-react';
 import { useApp } from './provider';
 import { FormRenderer } from './form-renderer';
-import { Logo, Modal, Loading, ErrorBox, LocalNotice } from './ui';
+import { Logo, Modal, Loading, ErrorBox } from './ui';
 import { definitionSchema, fieldInfo, makeField, themes, uid } from '@/lib/forms';
 import { templateDefinition } from '@/lib/templates';
-import { saveLocalFile } from '@/lib/local';
 import type { Field, FieldType, FormDefinition, FormRecord } from '@/lib/types';
 
 export function Builder({ id }: { id: string }) {
@@ -207,9 +206,7 @@ function BuilderSession({ id }: { id: string }) {
       latest.current = result;
       saved.current = JSON.stringify(result.draft);
       setShare(true);
-      toast(
-        cloud ? 'Your form is live. Go make a connection.' : 'Published in your local sandbox.',
-      );
+      toast('Your form is live. Go make a connection.');
     } catch (e) {
       toast(e instanceof Error ? e.message : 'Could not publish.');
     } finally {
@@ -229,9 +226,7 @@ function BuilderSession({ id }: { id: string }) {
   const field = form?.draft.fields.find((f) => f.id === selected);
   const index = form?.draft.fields.findIndex((f) => f.id === selected) ?? -1;
   const link =
-    typeof window !== 'undefined' && form
-      ? `${window.location.origin}/f/${form.id}${cloud ? '' : '?local=1'}`
-      : '';
+    typeof window !== 'undefined' && form ? `${window.location.origin}/f/${form.id}` : '';
   if (error)
     return (
       <div className="app-error">
@@ -305,7 +300,6 @@ function BuilderSession({ id }: { id: string }) {
           </button>
         </div>
       </header>
-      <LocalNotice />
       <div className="builder-subnav">
         <div>
           <button
@@ -877,19 +871,12 @@ function BuilderSession({ id }: { id: string }) {
         </Modal>
       )}
       {share && (
-        <Modal
-          title={cloud ? 'Your form is out in the world.' : 'Your sandbox form is ready.'}
-          onClose={() => setShare(false)}
-        >
+        <Modal title="Your form is out in the world." onClose={() => setShare(false)}>
           <div className="share-success">
             <span className="success-mark">
               <Check size={28} />
             </span>
-            <p>
-              {cloud
-                ? 'One link. A world of good conversations.'
-                : 'This link works only in this browser. Connect Supabase and sign in to publish a form anyone can open.'}
-            </p>
+            <p>One link. A world of good conversations.</p>
           </div>
           <label className="property-label">
             Your form link

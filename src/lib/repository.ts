@@ -1,5 +1,4 @@
 import { supabase } from './supabase';
-import { localRepo, getLocalFile } from './local';
 import type { FormRecord, FormDefinition, Submission, FileAnswer } from './types';
 export async function api(path: string, init: RequestInit = {}) {
   const session = supabase ? (await supabase.auth.getSession()).data.session : null;
@@ -11,11 +10,17 @@ export async function api(path: string, init: RequestInit = {}) {
   if (!r.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
   return data;
 }
-export function repository(cloud: boolean) {
-  if (!cloud || !supabase) return localRepo;
-  const db = supabase;
+async function accountClient() {
+  if (!supabase) throw new Error('Sign-in is temporarily unavailable. Please try again later.');
+  // Session presence is a UX check; the database and owner API validate access.
+  const { data, error } = await supabase.auth.getSession();
+  if (error || !data.session) throw new Error('Please sign in to access your forms.');
+  return supabase;
+}
+export function repository() {
   return {
     async list(): Promise<FormRecord[]> {
+      const db = await accountClient();
       const records: FormRecord[] = [];
       for (let start = 0; ; start += 500) {
         const { data, error } = await db
@@ -24,7 +29,7 @@ export function repository(cloud: boolean) {
           .order('updated_at', { ascending: false })
           .order('id')
           .range(start, start + 499);
-        if (error) throw new Error(error.message);
+        if (error) throw new Error('Could not load your forms. Please try again.');
         records.push(
           ...(data || []).map((f) => ({
             ...f,
@@ -35,28 +40,31 @@ export function repository(cloud: boolean) {
       }
     },
     async get(id: string): Promise<FormRecord | null> {
+      const db = await accountClient();
       const { data, error } = await db
         .from('scribble_forms')
         .select('*')
         .eq('id', id)
         .maybeSingle();
-      if (error) throw new Error(error.message);
+      if (error) throw new Error('Could not open this form. Please try again.');
       return data;
     },
     async create(definition: FormDefinition): Promise<FormRecord> {
+      const db = await accountClient();
       const {
         data: { user },
       } = await db.auth.getUser();
-      if (!user) throw new Error('Please sign in to save to the cloud.');
+      if (!user) throw new Error('Please sign in to create a form.');
       const { data, error } = await db
         .from('scribble_forms')
         .insert({ owner_id: user.id, draft: definition })
         .select()
         .single();
-      if (error) throw new Error(error.message);
+      if (error) throw new Error('Could not create your form. Please try again.');
       return data;
     },
     async save(form: FormRecord) {
+      const db = await accountClient();
       const { data, error } = await db
         .from('scribble_forms')
         .update({
@@ -67,7 +75,7 @@ export function repository(cloud: boolean) {
         .eq('id', form.id)
         .select('id')
         .single();
-      if (error || !data) throw new Error(error?.message || 'Form could not be saved.');
+      if (error || !data) throw new Error('Your form could not be saved. Please try again.');
     },
     async publish(form: FormRecord): Promise<FormRecord> {
       return api(`/api/forms/${form.id}/publish`, {
@@ -79,6 +87,7 @@ export function repository(cloud: boolean) {
       await api(`/api/forms/${id}`, { method: 'DELETE' });
     },
     async responses(id: string): Promise<Submission[]> {
+      const db = await accountClient();
       const records: Submission[] = [];
       for (let start = 0; ; start += 500) {
         const { data, error } = await db
@@ -88,7 +97,7 @@ export function repository(cloud: boolean) {
           .order('created_at', { ascending: false })
           .order('id')
           .range(start, start + 499);
-        if (error) throw new Error(error.message);
+        if (error) throw new Error('Could not load your responses. Please try again.');
         records.push(
           ...(data || []).map((r) => ({ ...r, definition: r.scribble_versions?.definition })),
         );
@@ -98,21 +107,13 @@ export function repository(cloud: boolean) {
     async removeResponse(id: string) {
       await api(`/api/responses/${id}`, { method: 'DELETE' });
     },
-    public: localRepo.public,
-    submit: localRepo.submit,
   };
 }
-export async function downloadFile(file: FileAnswer, cloud: boolean) {
-  let url: string;
-  if (cloud) {
-    url = (await api(`/api/files/${file.token}`)).url;
-  } else {
-    url = URL.createObjectURL(await getLocalFile(file.token));
-  }
+export async function downloadFile(file: FileAnswer) {
+  const url = (await api(`/api/files/${file.token}`)).url;
   const a = document.createElement('a');
   a.href = url;
   a.download = file.name;
   a.rel = 'noopener';
   a.click();
-  if (!cloud) setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

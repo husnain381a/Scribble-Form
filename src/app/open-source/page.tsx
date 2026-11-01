@@ -80,9 +80,8 @@ export default function Page() {
           <h2>The honest bit about “free”.</h2>
           <p>
             The software has no feature charges. Running a public service still uses hosting,
-            storage, bandwidth, and email. Vercel and Supabase free plans are useful for getting
-            started; their current quotas and terms apply. This project doesn’t promise unlimited
-            free infrastructure.
+            storage, bandwidth, and email. Hosting providers set their own limits and terms. This
+            project doesn’t promise unlimited free infrastructure.
           </p>
           <p>
             You control your hosting accounts, data retention, backups, email configuration, and

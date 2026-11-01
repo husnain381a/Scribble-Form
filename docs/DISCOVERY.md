@@ -1,6 +1,6 @@
 # Search and public discovery
 
-Scribble's default public origin is `https://scribble-forms.vercel.app`. Set `NEXT_PUBLIC_SITE_URL` at build time for your own domain. Keep `APP_ORIGIN` consistent with the actual request origin for deployed API validation; local development can keep `APP_ORIGIN=http://localhost:3000` while testing production canonical tags.
+Scribble's default public origin is `https://scribble-form.vercel.app`. Set `NEXT_PUBLIC_SITE_URL` at build time for your own domain. Keep `APP_ORIGIN` consistent with the actual request origin for deployed API validation; local development can keep `APP_ORIGIN=http://localhost:3000` while testing production canonical tags.
 
 ## Included
 
@@ -40,7 +40,7 @@ The security command expects `.env.local` for its private-value exclusion check.
 
 1. Confirm all public information URLs return HTTP 200 over HTTPS. Check `/robots.txt`, `/sitemap.xml`, `/llms.txt`, and `/og.png` on the final domain. Confirm Vercel has no deployment protection or `X-Robots-Tag: noindex` on the production marketing pages.
 2. Add the HTTPS URL-prefix property to [Google Search Console](https://search.google.com/search-console). Put its verification value in `GOOGLE_SITE_VERIFICATION`, redeploy, and complete verification. Add `BING_SITE_VERIFICATION` for [Bing Webmaster Tools](https://www.bing.com/webmasters/) if used. Do not invent verification values.
-3. Submit `https://scribble-forms.vercel.app/sitemap.xml` for this instance. For a fork, submit its own sitemap. Inspect `/` and `/faq` through the verified search console and request indexing when appropriate.
+3. Submit `https://scribble-form.vercel.app/sitemap.xml` for this instance. For a fork, submit its own sitemap. Inspect `/` and `/faq` through the verified search console and request indexing when appropriate.
 4. Validate JSON-LD with [Schema.org's validator](https://validator.schema.org/) and check applicable Google features with the [Rich Results Test](https://search.google.com/test/rich-results). Correct syntax is not a promise that a particular search feature will be shown.
 5. Inspect the deployed mobile experience and [PageSpeed Insights](https://pagespeed.web.dev/). Track real Core Web Vitals when enough field data exists; local HTML checks do not measure these.
 6. Monitor search impressions/clicks and indexing over time. Keep feature, privacy, and hosting statements accurate as the application changes. Add real author experience, examples, and references as they become available; do not invent adoption figures or testimonials.

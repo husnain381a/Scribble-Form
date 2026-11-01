@@ -3,19 +3,19 @@ export const faqs = [
     id: 'what-is-scribble',
     question: 'What is Scribble?',
     answer:
-      'Scribble is a free, open-source form builder for surveys, sign-ups, event RSVPs, and feedback. It combines a visual editor with customizable themes, conditional questions, page or conversational layouts, and a response dashboard. You can try it in a browser-local sandbox or self-host it with Supabase for shared forms and accounts.',
+      'Scribble is a free, open-source form builder for surveys, sign-ups, event RSVPs, and feedback. It combines a visual editor with customizable themes, conditional questions, page or conversational layouts, and a response dashboard. Create an account, make your form, and share its link with the people you want to hear from.',
   },
   {
     id: 'free',
     question: 'Is Scribble really free?',
     answer:
-      'Yes. All features in the Scribble source code are free, with no software subscription or paid feature tiers. The project is licensed under AGPL-3.0-only. Running a public instance still uses hosting, database storage, bandwidth, and email; your infrastructure providers set their own limits and costs.',
+      'Yes. Scribble has no software subscription or paid feature tiers. You can create an account and use all included question types, themes, conditional questions, and response exports. The source is licensed under AGPL-3.0-only. Operators hosting their own instance are responsible for their infrastructure costs and limits.',
   },
   {
     id: 'code',
     question: 'Do I need to know how to code?',
     answer:
-      'You do not need to code to make a form in a configured Scribble instance. Add questions in the editor, choose a theme, and publish. The browser-local sandbox works without API keys. Hosting your own instance requires a one-time Next.js and Supabase setup using the repository guide.',
+      'No. Create your free account, add questions in the editor, choose a theme, and publish. You can start with a ready-made template or a blank form. The editor handles the form layout and sharing link, so you can focus on the questions you want to ask.',
   },
   {
     id: 'professional',
@@ -27,13 +27,13 @@ export const faqs = [
     id: 'privacy',
     question: 'Who can see my responses?',
     answer:
-      'In cloud mode, database row-level security restricts drafts and responses to the form owner. Respondents can submit without creating an account. Hosting administrators and infrastructure providers may also access stored data; this is not end-to-end encryption. In the sandbox, data stays in the current browser profile and is accessible to people using that profile.',
+      'Your forms and responses belong to your account. Within the application, only the form owner can view drafts, review responses, and download attached files. Hosting administrators and infrastructure providers may also access stored data; this is not end-to-end encryption. Anyone with a published form link can see its questions and submit an answer.',
   },
   {
-    id: 'sandbox',
-    question: 'Can other people use a sandbox share link?',
+    id: 'account',
+    question: 'Do I need an account to create a form?',
     answer:
-      'No. Sandbox forms and responses are stored in the current browser profile, and test files use IndexedDB. A sandbox link does not collect responses across devices or browsers. To share a real form with other people, use a configured Supabase instance, sign in, and publish the form from your account.',
+      'Yes. Sign up or sign in before creating, editing, publishing, or managing forms. Your account keeps your forms and responses together. People answering a published form do not need a Scribble account.',
   },
   {
     id: 'questions',
@@ -45,7 +45,7 @@ export const faqs = [
     id: 'files',
     question: 'Can respondents upload files?',
     answer:
-      'Yes. Published cloud forms can accept JPEG, PNG, WebP, PDF, and plain-text files up to 5 MB each. Files use private Supabase storage, non-overwriting signed uploads, and short-lived downloads authorized for the form owner. File contents are not virus-scanned. Browser-local sandbox uploads stay in the current browser.',
+      "Yes. Published forms can accept JPEG, PNG, WebP, PDF, and plain-text files up to 5 MB each. Files are stored privately, and downloads require the form owner's authorization. Download links expire shortly after they are issued. File contents are not virus-scanned.",
   },
   {
     id: 'export',
@@ -55,12 +55,11 @@ export const faqs = [
   },
   {
     id: 'self-host',
-    question: 'How do I self-host Scribble?',
+    question: 'Can I host Scribble myself?',
     answer:
-      'Clone the GitHub repository, use Node.js 22 or later, and install dependencies with npm ci. Create a Supabase project, apply all database migrations, add your environment values, and configure Auth redirects and email. Run the app locally or deploy the Next.js application to Vercel, then verify publishing, submissions, and owner-only access.',
+      'Yes. Scribble is open source under AGPL-3.0-only. The GitHub repository includes the source, installation instructions, and a deployment guide for running your own instance. Instance operators manage their hosting, account settings, backups, and retention policies. Signing in is required to create forms on every instance.',
   },
 ] as const;
-
 export const homeFaqs = faqs.filter(({ id }) =>
   ['free', 'code', 'professional', 'privacy'].includes(id),
 );

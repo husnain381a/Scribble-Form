@@ -15,7 +15,7 @@ Follow our [code of conduct](CODE_OF_CONDUCT.md). Keep review discussions kind, 
 3. Run `npm ci`, then `npm run dev`.
 4. Create a focused branch: `git switch -c fix/short-description`.
 
-The browser-local sandbox needs no credentials. Cloud features require a Supabase project you own; see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). Never use someone else's instance or real respondent data to test a contribution.
+Accounts and form creation require a Supabase project you own; see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). Use disposable accounts for development. Public pages can render without keys, but sign-in and form creation remain unavailable until configuration is complete. Never use someone else's instance or real respondent data to test a contribution.
 
 ## Make a focused change
 

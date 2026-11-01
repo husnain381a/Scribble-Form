@@ -32,7 +32,7 @@ The application has **no paid feature tiers**. Run it locally, read the code, an
 
 ## Quick start
 
-You need **Node.js 22+** and npm. Supabase and Docker are optional for trying the browser-local sandbox.
+You need **Node.js 22+**, npm, and a configured Supabase project for accounts and forms. Follow the [deployment guide](docs/DEPLOYMENT.md) to apply migrations and add the required environment values before signing in.
 
 ```sh
 git clone https://github.com/husnain381a/Scribble-Forms.git
@@ -41,9 +41,9 @@ npm ci
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Create a form, try the themes, preview it, and test a response. No API keys are required for the sandbox.
+Open [http://localhost:3000](http://localhost:3000), create an account, confirm your email, and sign in. Then create a form, choose a theme, publish, and test a response.
 
-> **Sandbox links stay local.** Sandbox forms and responses live in your browser profile; files use IndexedDB. A sandbox share link cannot collect responses from other people or devices. For real shared forms and accounts, connect your own Supabase project below. Local drafts are not automatically transferred to cloud accounts.
+> **Accounts are required for creators.** Creating, editing, publishing, and managing forms requires sign-in. Published forms accept responses without requiring a respondent account. The application has no anonymous draft or browser-only form mode.
 
 ## What you can make
 
@@ -87,7 +87,7 @@ Follow the [Supabase + Vercel deployment guide](docs/DEPLOYMENT.md) for the comp
 
 Never put a server credential in a `NEXT_PUBLIC_*` variable, browser code, or a commit. This repository contains configuration examples, not a shared backend or hosted service. See [SECURITY.md](SECURITY.md) for the access model and operator responsibilities.
 
-Set `NEXT_PUBLIC_SITE_URL` to your public canonical origin (default: `https://scribble-forms.vercel.app`). It controls canonical tags, social previews, and discovery URLs; local API checks can keep their localhost `APP_ORIGIN`. Optional `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` values enable ownership meta tags. See [the search setup guide](docs/DISCOVERY.md).
+Set `NEXT_PUBLIC_SITE_URL` to your public canonical origin (default: `https://scribble-form.vercel.app`). It controls canonical tags, social previews, and discovery URLs; local API checks can keep their localhost `APP_ORIGIN`. Optional `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` values enable ownership meta tags. See [the search setup guide](docs/DISCOVERY.md).
 
 ## Development and checks
 
@@ -99,7 +99,7 @@ npm run build            # Production build
 npm start                # Serve the production build locally
 ```
 
-The local test suite covers field validation, conditional visibility, templates, CSV exports, sandbox behavior, SQL ownership, immutable versions, rate counters, file boundaries, and script policy. GitHub CI runs local checks without cloud credentials.
+The local test suite covers field validation, conditional visibility, templates, CSV exports, authenticated creation, SQL ownership, immutable versions, rate counters, file boundaries, and script policy. GitHub CI runs local checks without cloud credentials.
 
 For your own configured project and a running production app:
 
@@ -117,7 +117,7 @@ Cloud verification exercises actual Auth, PostgREST, publishing, submissions, an
 src/app/                Pages and validated Next.js API routes
 src/components/         Editor, form renderer, workspace, and response views
 src/lib/forms.ts        Shared form schemas, answer rules, and CSV helpers
-src/lib/repository.ts   Local sandbox / authenticated cloud persistence
+src/lib/repository.ts   Authenticated account persistence
 src/lib/server.ts       Server-only clients, ownership, limits, and public reads
 src/proxy.ts            Per-request script nonces and content security policy
 supabase/migrations/    Schema, owner policies, functions, and private storage

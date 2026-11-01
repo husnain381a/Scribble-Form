@@ -20,7 +20,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import { useApp } from './provider';
-import { Logo, LocalNotice, Loading, ErrorBox, Modal } from './ui';
+import { Logo, Loading, ErrorBox, Modal } from './ui';
 import { formatDate } from '@/lib/forms';
 import { templates } from '@/lib/templates';
 import { supabase } from '@/lib/supabase';
@@ -117,7 +117,7 @@ export function Workspace() {
           <span className="avatar">{user?.email?.slice(0, 1).toUpperCase() || 'Y'}</span>
           <div>
             <b>{user?.email?.split('@')[0] || 'Your workspace'}</b>
-            <small>{cloud ? 'Connected to Supabase' : 'Local sandbox'}</small>
+            <small>Your personal workspace</small>
           </div>
           {user ? (
             <button
@@ -144,7 +144,6 @@ export function Workspace() {
             Back to Scribble <ArrowUpRight size={14} />
           </Link>
         </header>
-        <LocalNotice />
         <main id="main" className="workspace-content">
           <div className="workspace-welcome">
             <div>

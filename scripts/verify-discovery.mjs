@@ -2,16 +2,23 @@
 import assert from 'node:assert/strict';
 import { writeFile } from 'node:fs/promises';
 const origin = process.env.SEO_TEST_ORIGIN || 'http://localhost:3000';
-const canonical = new URL(process.env.SEO_EXPECTED_SITE_URL || 'https://scribble-forms.vercel.app')
+const canonical = new URL(process.env.SEO_EXPECTED_SITE_URL || 'https://scribble-form.vercel.app')
   .origin;
 const repository = 'https://github.com/husnain381a/Scribble-Forms';
 const paths = ['/', '/templates', '/faq', '/open-source', '/setup', '/privacy'];
 const pages = [];
 const titles = new Set();
+function customerText(html) {
+  return html
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '')
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/g, '')
+    .replace(/<[^>]+>/g, ' ');
+}
 for (const path of paths) {
   const response = await fetch(origin + path);
   assert.equal(response.status, 200, path);
   const html = await response.text();
+  assert.ok(!/supabase|sandbox/i.test(customerText(html)), `${path}: customer-facing copy`);
   const title = html.match(/<title>(.*?)<\/title>/s)?.[1];
   assert.ok(title && !titles.has(title), `${path}: unique title`);
   assert.ok(title.startsWith('Scribble Form | '), `${path}: brand-first title`);
@@ -80,6 +87,12 @@ for (const path of [
 ]) {
   const response = await fetch(origin + path);
   const html = await response.text();
+  if (!path.startsWith('/f/') && path !== '/login')
+    assert.ok(
+      customerText(html).includes('Sign in to continue'),
+      `${path}: owner tools require an account`,
+    );
+  assert.ok(!/supabase|sandbox/i.test(customerText(html)), `${path}: customer-facing copy`);
   assert.ok(
     html.match(/<title>(.*?)<\/title>/s)?.[1].startsWith('Scribble Form | '),
     `${path}: private page title prefix`,
@@ -90,7 +103,9 @@ for (const path of [
 }
 const llms = await fetch(origin + '/llms.txt');
 assert.ok(llms.headers.get('content-type')?.includes('text/plain'));
-assert.ok((await llms.text()).includes(repository));
+const llmsText = await llms.text();
+assert.ok(llmsText.includes(repository));
+assert.ok(!/supabase|sandbox/i.test(llmsText));
 const image = await fetch(origin + '/og.png');
 assert.equal(image.status, 200);
 assert.ok(image.headers.get('content-type')?.includes('image/png'));

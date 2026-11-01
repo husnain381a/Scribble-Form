@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { repository } from '@/lib/repository';
@@ -15,6 +15,7 @@ export function Provider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [ready, setReady] = useState(!supabase);
   const [message, setMessage] = useState('');
+  const repo = useMemo(() => repository(), []);
   useEffect(() => {
     if (!supabase) return;
     supabase.auth
@@ -37,7 +38,7 @@ export function Provider({ children }: { children: ReactNode }) {
   }, [message]);
   const cloud = Boolean(user && supabase);
   return (
-    <AppContext.Provider value={{ user, ready, cloud, repo: repository(cloud), toast: setMessage }}>
+    <AppContext.Provider value={{ user, ready, cloud, repo, toast: setMessage }}>
       {children}
       {message && (
         <div className="toast" role="status">

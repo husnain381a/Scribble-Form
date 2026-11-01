@@ -105,7 +105,7 @@ export function Footer() {
                 <Github size={16} aria-hidden="true" /> GitHub repository{' '}
                 <ArrowUpRight size={14} aria-hidden="true" />
               </a>
-              <Link href="/setup">Self-hosting guide</Link>
+              <Link href="/setup">Getting started</Link>
               <Link href="/open-source">The open-source story</Link>
               <Link href="/privacy">Privacy &amp; your data</Link>
             </nav>
@@ -204,19 +204,6 @@ export function ErrorBox({ message, retry }: { message: string; retry?: () => vo
           Try again
         </button>
       )}
-    </div>
-  );
-}
-export function LocalNotice() {
-  const { cloud } = useApp();
-  if (cloud) return null;
-  return (
-    <div className="local-notice">
-      <span className="status-dot" />
-      Local sandbox · Saved in this browser. Share links work here only.
-      <Link href="/login">
-        Sign in for cloud publishing <ArrowUpRight size={13} />
-      </Link>
     </div>
   );
 }

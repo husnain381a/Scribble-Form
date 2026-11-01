@@ -41,16 +41,13 @@ export default function Page() {
         </div>
         <section className="info-card">
           <h2>Let’s make your first form.</h2>
-          <p>
-            Start with a template, try the sandbox, or follow the self-hosting guide to bring your
-            own instance online.
-          </p>
+          <p>Create your free account, choose a template, and make your first form.</p>
           <div className="modal-actions">
             <Link href="/templates" className="button button-yellow">
               Explore templates <ArrowUpRight size={17} />
             </Link>
             <Link href="/setup" className="button">
-              Self-host Scribble
+              Getting started
             </Link>
             <a href={GITHUB_URL} className="text-link" target="_blank" rel="noopener noreferrer">
               <Github size={17} aria-hidden="true" /> GitHub

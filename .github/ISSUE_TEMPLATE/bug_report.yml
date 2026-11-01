@@ -19,7 +19,7 @@ body:
       label: Steps to reproduce
       description: Give the smallest example someone else can try. Include the affected question type or theme if relevant.
       placeholder: |
-        1. Create a sandbox form...
+        1. Sign in and create a form...
         2. Add...
         3. Observe...
     validations:
@@ -29,9 +29,8 @@ body:
     attributes:
       label: Where does it happen?
       options:
-        - Browser-local sandbox
-        - My own Supabase instance
-        - Both
+        - Public website
+        - My own hosted instance
         - Unsure
     validations:
       required: true
