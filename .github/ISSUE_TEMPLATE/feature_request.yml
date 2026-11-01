@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest a useful improvement to Scribble.
+title: '[Feature]: '
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Who does this help, and what are they trying to do?
+      description: Describe a concrete use case or problem.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed improvement
+      description: Explain the behavior you would like to see.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and context
+      description: Optional. Include existing workarounds, sketches, or relevant examples.
+  - type: dropdown
+    id: contribution
+    attributes:
+      label: Would you like to help?
+      options:
+        - I can help discuss or test it
+        - I would like to contribute a pull request
+        - I am sharing the idea

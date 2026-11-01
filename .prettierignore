@@ -1,0 +1,5 @@
+node_modules/
+.next/
+public/source.zip
+package-lock.json
+LICENSE

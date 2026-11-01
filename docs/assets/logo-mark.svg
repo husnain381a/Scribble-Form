@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+    <title id="title">Scribble feather mark</title>
+    <desc id="desc">Scribble's paper, ink, and mustard-yellow identity. All lettering is vector artwork, with no remote fonts or scripts.</desc>
+    <g transform="translate(0 0) scale(1.5)">
+      <rect x="4" y="7" width="56" height="56" rx="14" fill="#292d27"/>
+      <rect x="4" y="4" width="56" height="56" rx="14" fill="#f4d66e" stroke="#292d27" stroke-width="2.5"/>
+      <path d="M19 45l7-22 15-9 8 9-10 15-20 7zm8-8 14-15M26 38l-1-9m5 7 8 1" fill="none" stroke="#292d27" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    </svg>

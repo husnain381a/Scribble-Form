@@ -1,0 +1,49 @@
+name: Bug report
+description: Help us reproduce a problem with Scribble.
+title: '[Bug]: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Scribble. Use invented data and remove credentials from logs and screenshots. For vulnerabilities, follow SECURITY.md instead of posting details here.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Give the smallest example someone else can try. Include the affected question type or theme if relevant.
+      placeholder: |
+        1. Create a sandbox form...
+        2. Add...
+        3. Observe...
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Where does it happen?
+      options:
+        - Browser-local sandbox
+        - My own Supabase instance
+        - Both
+        - Unsure
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Commit/version, browser, operating system, and Node.js version when relevant. Do not include project keys or connection strings.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots or sanitized logs
+      description: Optional. Remove real respondent data and private information first.

@@ -1,0 +1,2 @@
+-- No sample users or responses are inserted into a cloud or local database.
+-- App templates are generated in src/lib/templates.ts for the signed-in owner.
