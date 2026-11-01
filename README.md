@@ -56,7 +56,7 @@ Open [http://localhost:3000](http://localhost:3000). Create a form, try the them
 | Sharing            | Immutable published snapshots, share links, close/reopen forms, and protection against submitting an outdated version                             |
 | Responses          | Owner-only dashboard, search, response details, deletion, and CSV export with formula neutralization                                              |
 | Accounts and files | Supabase email/password accounts and recovery, owner-based RLS, private storage, signed upload tickets, and short-lived owner downloads           |
-| Open source        | AGPL-3.0 source, SQL migrations, local tests, cloud verification scripts, and a corresponding-source download generated with each build           |
+| Open source        | AGPL-3.0 source on GitHub, SQL migrations, local tests, cloud verification scripts, and contribution guides                                       |
 
 <details>
   <summary><strong>A look at the response dashboard</strong></summary>
@@ -87,13 +87,15 @@ Follow the [Supabase + Vercel deployment guide](docs/DEPLOYMENT.md) for the comp
 
 Never put a server credential in a `NEXT_PUBLIC_*` variable, browser code, or a commit. This repository contains configuration examples, not a shared backend or hosted service. See [SECURITY.md](SECURITY.md) for the access model and operator responsibilities.
 
+Set `NEXT_PUBLIC_SITE_URL` to your public canonical origin (default: `https://scribble-forms.vercel.app`). It controls canonical tags, social previews, and discovery URLs; local API checks can keep their localhost `APP_ORIGIN`. Optional `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` values enable ownership meta tags. See [the search setup guide](docs/DISCOVERY.md).
+
 ## Development and checks
 
 ```sh
 npm test                 # Form logic and real SQL/RLS checks in PGlite
 npm run typecheck        # TypeScript
 npm run format:check     # Formatting
-npm run build            # Source download + production build
+npm run build            # Production build
 npm start                # Serve the production build locally
 ```
 
@@ -102,7 +104,8 @@ The local test suite covers field validation, conditional visibility, templates,
 For your own configured project and a running production app:
 
 ```sh
-npm run test:security       # Built-asset/source credential checks and HTTP security headers
+npm run test:security       # Built-asset credential checks and HTTP security headers
+npm run test:discovery      # Metadata, schemas, sitemap, robots, and GitHub links
 npm run test:cloud:managed  # Creates, verifies, and cleans up two disposable test accounts
 ```
 
@@ -118,7 +121,7 @@ src/lib/repository.ts   Local sandbox / authenticated cloud persistence
 src/lib/server.ts       Server-only clients, ownership, limits, and public reads
 src/proxy.ts            Per-request script nonces and content security policy
 supabase/migrations/    Schema, owner policies, functions, and private storage
-scripts/                Source packaging, checks, and upload maintenance
+scripts/                Security/discovery checks and upload maintenance
 tests/                  Form, PostgreSQL/RLS, and security regression tests
 docs/                   Deployment instructions and reusable brand assets
 ```

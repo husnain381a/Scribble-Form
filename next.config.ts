@@ -1,6 +1,10 @@
 import type { NextConfig } from 'next';
+import { GITHUB_URL } from './src/lib/site';
 const config: NextConfig = {
   poweredByHeader: false,
+  async redirects() {
+    return [{ source: '/source.zip', destination: GITHUB_URL, permanent: true }];
+  },
   async headers() {
     return [
       {

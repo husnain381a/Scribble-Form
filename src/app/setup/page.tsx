@@ -1,9 +1,13 @@
 import { Nav, Footer } from '@/components/ui';
 import Link from 'next/link';
-export const metadata = { title: 'Give Scribble a home' };
+import { StructuredData } from '@/components/structured-data';
+import { breadcrumbSchema, pageMetadata } from '@/lib/seo';
+import { GITHUB_URL } from '@/lib/site';
+export const metadata = pageMetadata('/setup');
 export default function Page() {
   return (
     <>
+      <StructuredData data={breadcrumbSchema('Self-hosting guide', '/setup')} />
       <Nav />
       <main id="main" className="info-page section-wrap">
         <span className="eyebrow">A HOME FOR YOUR GOOD IDEAS</span>
@@ -13,16 +17,18 @@ export default function Page() {
           <span className="handwritten coral">to out in the world.</span>
         </h1>
         <p className="info-lead">
-          The repository includes the full database migration, access policies, private file
-          storage, and a step-by-step deployment guide.
+          Self-host Scribble with Next.js and Supabase to publish shared forms from an instance you
+          control. The GitHub repository includes the database migrations, owner access policies,
+          private file storage, and deployment instructions. You need Node.js 22 or later and your
+          own hosting accounts.
         </p>
         <ol className="setup-steps">
           <li>
             <h2>Create your Supabase project.</h2>
             <p>
-              Use a new project, or a separate namespace in a project you control. Run the SQL file
-              in <code>supabase/migrations/</code> using the SQL editor, or run{' '}
-              <code>supabase db push</code> from the repository.
+              Use a new project, or a separate namespace in a project you control. Run every SQL
+              file in <code>supabase/migrations/</code> in filename order using the SQL editor, or
+              run <code>supabase db push</code> from the repository.
             </p>
           </li>
           <li>
@@ -35,7 +41,7 @@ export default function Page() {
           <li>
             <h2>Run it locally.</h2>
             <p>
-              <code>npm install</code>, then <code>npm run dev</code>. Open the local URL, create an
+              <code>npm ci</code>, then <code>npm run dev</code>. Open the local URL, create an
               account, and publish your first cloud form.
             </p>
           </li>
@@ -43,9 +49,9 @@ export default function Page() {
             <h2>Deploy on Vercel.</h2>
             <p>
               Import the repository, choose Next.js, and add the same environment values. Set{' '}
-              <code>APP_ORIGIN</code> to your deployed URL and allow that URL in Supabase Auth
-              redirect settings. Keep email confirmation enabled; configure SMTP for a public
-              service.
+              <code>APP_ORIGIN</code> and <code>NEXT_PUBLIC_SITE_URL</code> to your deployed URL and
+              allow that URL in Supabase Auth redirect settings. Keep email confirmation enabled;
+              configure SMTP for a public service.
             </p>
           </li>
           <li>
@@ -58,8 +64,16 @@ export default function Page() {
           </li>
         </ol>
         <p>
-          See the repository’s <code>README.md</code> and <code>docs/DEPLOYMENT.md</code> for exact
-          commands, environment requirements, and maintenance details.
+          Follow the{' '}
+          <a
+            href={`${GITHUB_URL}/blob/main/docs/DEPLOYMENT.md`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-link"
+          >
+            complete deployment guide on GitHub
+          </a>{' '}
+          for exact commands, environment requirements, and maintenance details.
         </p>
         <Link href="/workspace" className="button button-dark">
           Explore your workspace →

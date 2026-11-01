@@ -2,14 +2,8 @@ import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
-import { unzipSync } from 'fflate';
 import { assertSafeContent, privateValues } from './secret-guard.mjs';
 const secrets = await privateValues(new URL('../', import.meta.url));
-const archive = unzipSync(await readFile(new URL('../public/source.zip', import.meta.url)));
-for (const [name, bytes] of Object.entries(archive)) {
-  assert.ok(!name.endsWith('/.env.local'), 'private environment is excluded');
-  assertSafeContent(bytes, name, secrets);
-}
 let assets = 0;
 async function walk(directory) {
   for (const item of await readdir(directory, { withFileTypes: true })) {
@@ -23,11 +17,14 @@ async function walk(directory) {
 }
 await walk(fileURLToPath(new URL('../.next/static/', import.meta.url)));
 const origin = process.env.APP_ORIGIN || 'http://localhost:3000';
+const source = await fetch(origin + '/source.zip', { redirect: 'manual' });
+assert.equal(source.status, 308, 'legacy source download redirects');
+assert.equal(source.headers.get('location'), 'https://github.com/husnain381a/Scribble-Forms');
 for (const route of ['/.env.local', '/.env', '/supabase/config.toml']) {
   const response = await fetch(origin + route);
   assert.equal(response.status, 404, `${route} is not served`);
 }
-const pages = await Promise.all([fetch(origin + '/login'), fetch(origin + '/login')]);
+const pages = await Promise.all([fetch(origin + '/'), fetch(origin + '/')]);
 const policies = pages.map((response) => response.headers.get('content-security-policy') || '');
 assert.notEqual(policies[0], policies[1], 'fresh nonce on each response');
 for (let i = 0; i < pages.length; i++) {
@@ -56,5 +53,5 @@ for (let i = 0; i < pages.length; i++) {
   );
 }
 console.log(
-  `PASS: ${Object.keys(archive).length} source files and ${assets} browser assets exclude private credentials; private files return 404; production headers and script nonces verified.`,
+  `PASS: ${assets} browser assets exclude private credentials; private files return 404; source link redirects to GitHub; production headers and all script nonces verified.`,
 );

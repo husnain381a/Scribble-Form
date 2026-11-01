@@ -14,11 +14,11 @@ The server secret bypasses RLS and is a trusted administrator credential. It mus
 - Rate counters are durable and atomic. Custom reverse-proxy deployments must configure a trusted client-address source; local development intentionally uses a shared bucket.
 - HTML pages use a fresh script nonce and strict Content Security Policy. Production does not allow arbitrary inline scripts or eval. Inline CSS remains allowed for the theme controls. Nonces require dynamic HTML rendering and private/no-store page responses.
 - CSV exports escape quotation marks and neutralize spreadsheet formula prefixes, including control-character and full-width variants.
-- Source packaging uses an explicit file allowlist plus a fail-closed scan for private environment values, privileged/user JWTs, and secret API keys.
+- The Git index scanner rejects private environment files and recognizable credentials, including private environment values, privileged/user JWTs, and secret API keys. Website source links point to the public GitHub repository.
 
 ## Verify
 
-Run `npm test`, `npm run typecheck`, and `npm run build`. With the production app running, `npm run test:security` checks source/browser credential exclusion, private-file 404s, response headers, unique nonces, and nonce attributes on framework scripts. `npm run test:cloud:managed` verifies real ownership and upload boundaries using disposable accounts, then cleans up those accounts and files.
+Run `npm test`, `npm run typecheck`, and `npm run build`. With the production app running, `npm run test:security` checks browser credential exclusion, the GitHub source redirect, private-file 404s, response headers, unique nonces, and nonce attributes on framework scripts. `npm run test:cloud:managed` verifies real ownership and upload boundaries using disposable accounts, then cleans up those accounts and files.
 
 ## Operator responsibilities and limits
 

@@ -1,8 +1,11 @@
 import { Nav, Footer } from '@/components/ui';
-export const metadata = { title: 'Your answers deserve care' };
+import { StructuredData } from '@/components/structured-data';
+import { breadcrumbSchema, pageMetadata } from '@/lib/seo';
+export const metadata = pageMetadata('/privacy');
 export default function Page() {
   return (
     <>
+      <StructuredData data={breadcrumbSchema('Data privacy', '/privacy')} />
       <Nav />
       <main id="main" className="info-page section-wrap">
         <span className="eyebrow">A LITTLE CLARITY</span>

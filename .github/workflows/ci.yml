@@ -33,3 +33,15 @@ jobs:
       - run: npm test
       - run: npm run typecheck
       - run: npm run build
+      - name: Verify public discovery in the production build
+        run: |
+          npm start > "$RUNNER_TEMP/scribble-next.log" 2>&1 &
+          app_pid=$!
+          trap 'kill "$app_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://127.0.0.1:3000/robots.txt > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          npm run test:discovery

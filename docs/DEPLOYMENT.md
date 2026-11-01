@@ -42,6 +42,8 @@ Never add a server secret to a `NEXT_PUBLIC_` variable, a source file, or a Git 
 
 For a local run on port 3005, set `APP_ORIGIN=http://127.0.0.1:3005` and use that exact origin consistently. Different ports and `localhost` vs `127.0.0.1` have separate sandbox storage and sessions.
 
+For public discovery, set `NEXT_PUBLIC_SITE_URL` to the same production origin. The default is `https://scribble-forms.vercel.app`; change it for a fork. Optional `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` values are public ownership meta tags. See [DISCOVERY.md](DISCOVERY.md) for the search launch checklist.
+
 ## 3. Supabase Auth
 
 - Enable email/password login. Keep email confirmation enabled for a public service.
@@ -67,7 +69,7 @@ Open the printed URL. Sign in, create a form, and publish. Open its `/f/UUID` li
 
 1. Push this project directory to a Git repository, including the lockfile, source, license, and migrations. Keep `.env.local` untracked.
 2. Import that repository in Vercel. Select **Next.js**, install with `npm ci`, and build with `npm run build`. If this directory lives in a larger repository, set it as the root directory.
-3. Add all five environment values for production. Set `APP_ORIGIN` to the production domain. An exact stable domain avoids mixing preview and production data.
+3. Add the required environment values for production. Set `APP_ORIGIN` and `NEXT_PUBLIC_SITE_URL` to the production domain. An exact stable domain avoids mixing preview and production data.
 4. Deploy. Add the domain to Supabase Auth redirects. Redeploy after changing browser environment values.
 5. Check `/api/health`; it should report `configured`. This checks required environment presence, not database connectivity or migration status.
 
@@ -94,7 +96,7 @@ Confirm signup and password-reset email delivery with your own email address bef
 
 ## 7. Maintenance
 
-Run `npm run test:security` against the production build after security-related changes. It verifies that private values are excluded from browser assets and source downloads, private files are not served, and each HTML response has a valid fresh script nonce. Nonce-based CSP requires dynamic rendering, so these pages must not be served from an HTML cache that reuses a nonce between visitors.
+Run `npm run test:security` against the production build after security-related changes. It verifies that private values are excluded from browser assets, the source link redirects to GitHub, private files are not served, and each HTML response has a valid fresh script nonce. Nonce-based CSP requires dynamic rendering, so these pages must not be served from an HTML cache that reuses a nonce between visitors.
 
 Run the upload cleanup script daily with the server environment:
 

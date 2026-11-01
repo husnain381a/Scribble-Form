@@ -1,9 +1,10 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useRef, type ReactNode } from 'react';
-import { ArrowUpRight, Check, Feather, Menu, X } from 'lucide-react';
+import { ArrowUpRight, Check, Feather, Github, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { useApp } from './provider';
+import { GITHUB_URL } from '@/lib/site';
 export function Logo({ small = false }: { small?: boolean }) {
   return (
     <Link href="/" className={`logo ${small ? 'small' : ''}`} aria-label="Scribble home">
@@ -31,8 +32,30 @@ export function Nav() {
           <Link href="/open-source" onClick={() => setOpen(false)}>
             Free. Really.
           </Link>
+          <Link href="/faq" onClick={() => setOpen(false)}>
+            FAQ
+          </Link>
+          <a
+            href={GITHUB_URL}
+            className="mobile-source-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
+          >
+            GitHub <Github size={16} aria-hidden="true" />
+          </a>
         </nav>
         <div className="nav-actions">
+          <a
+            href={GITHUB_URL}
+            className="icon-button github-link"
+            aria-label="Scribble on GitHub"
+            title="Scribble on GitHub"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Github size={21} aria-hidden="true" />
+          </a>
           <Link href={user ? '/workspace' : '/login'} className="login-link">
             {user ? 'My workspace' : 'Log in'}
           </Link>
@@ -42,6 +65,7 @@ export function Nav() {
           <button
             className="icon-button mobile-menu"
             aria-label="Toggle menu"
+            aria-expanded={open}
             onClick={() => setOpen(!open)}
           >
             {open ? <X /> : <Menu />}
@@ -61,7 +85,11 @@ export function Footer() {
       <div className="footer-links">
         <Link href="/templates">Templates</Link>
         <Link href="/open-source">Open source</Link>
+        <Link href="/faq">FAQ</Link>
         <Link href="/privacy">Privacy</Link>
+        <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+          <Github size={16} aria-hidden="true" /> GitHub
+        </a>
         <Link href="/workspace">
           Workspace <ArrowUpRight size={14} />
         </Link>

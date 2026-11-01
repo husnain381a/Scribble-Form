@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { contentSecurityPolicy } from '@/lib/security';
+import { isPrivatePath } from '@/lib/site';
 export function proxy(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
   const csp = contentSecurityPolicy(nonce, {
@@ -13,10 +14,12 @@ export function proxy(request: NextRequest) {
   const response = NextResponse.next({ request: { headers } });
   response.headers.set('Content-Security-Policy', csp);
   response.headers.set('Cache-Control', 'private, no-store');
+  if (isPrivatePath(request.nextUrl.pathname) || process.env.VERCEL_ENV === 'preview')
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
   return response;
 }
 export const config = {
   matcher: [
-    '/((?!api(?:/|$)|_next/static|_next/image|icon\\.svg$|source\\.zip$|favicon\\.ico$).*)',
+    '/((?!api(?:/|$)|_next/static|_next/image|icon\\.svg$|source\\.zip$|favicon\\.ico$|robots\\.txt$|sitemap\\.xml$|llms\\.txt$|og\\.png$|logo\\.png$|apple-touch-icon\\.png$).*)',
   ],
 };

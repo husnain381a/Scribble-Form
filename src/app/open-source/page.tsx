@@ -1,10 +1,14 @@
 import Link from 'next/link';
-import { ArrowUpRight, Check, Code2, Heart } from 'lucide-react';
+import { ArrowUpRight, Check, Code2, Github, Heart } from 'lucide-react';
 import { Nav, Footer } from '@/components/ui';
-export const metadata = { title: 'Free is the whole idea' };
+import { StructuredData } from '@/components/structured-data';
+import { breadcrumbSchema, pageMetadata } from '@/lib/seo';
+import { GITHUB_URL } from '@/lib/site';
+export const metadata = pageMetadata('/open-source');
 export default function Page() {
   return (
     <>
+      <StructuredData data={breadcrumbSchema('Open source', '/open-source')} />
       <Nav />
       <main id="main" className="info-page section-wrap">
         <span className="eyebrow">FREE ISN’T A TRIAL. IT’S THE WHOLE IDEA.</span>
@@ -14,8 +18,8 @@ export default function Page() {
           <span className="handwritten coral">Open to everyone.</span>
         </h1>
         <p className="info-lead">
-          A student’s first survey deserves the same care as a company’s next big launch. Scribble
-          is built around that belief.
+          Scribble is a free, open-source form builder for students, creators, and communities. Read
+          the code, make it your own, or help make forms a little more human.
         </p>
         <div className="info-columns">
           <section>
@@ -37,6 +41,41 @@ export default function Page() {
             </p>
           </section>
         </div>
+        <section className="info-card">
+          <Github size={28} aria-hidden="true" />
+          <h2>Built in the open. Better together.</h2>
+          <p>
+            The Scribble Forms project is maintained on GitHub by{' '}
+            <a
+              className="text-link"
+              href="https://github.com/husnain381a"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              husnain381a
+            </a>{' '}
+            and contributors. Browse the source, follow changes, report a bug, or contribute a
+            useful improvement.
+          </p>
+          <div className="modal-actions">
+            <a
+              href={GITHUB_URL}
+              className="button button-dark"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github size={18} aria-hidden="true" /> View on GitHub <ArrowUpRight size={16} />
+            </a>
+            <a
+              href={`${GITHUB_URL}/blob/main/CONTRIBUTING.md`}
+              className="text-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Contributions welcome <ArrowUpRight size={16} />
+            </a>
+          </div>
+        </section>
         <section className="info-card">
           <h2>The honest bit about “free”.</h2>
           <p>
@@ -73,8 +112,13 @@ export default function Page() {
           </li>
         </ul>
         <div className="modal-actions">
-          <a href="/source.zip" download className="button button-dark">
-            Download the complete source <Code2 size={18} />
+          <a
+            href={GITHUB_URL}
+            className="button button-dark"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Explore the source on GitHub <Github size={18} aria-hidden="true" />
           </a>
           <Link href="/builder/new" className="button button-yellow">
             Make your first form <ArrowUpRight size={18} />

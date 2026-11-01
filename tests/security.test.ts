@@ -29,7 +29,7 @@ test('development CSP allows debugging without forcing localhost HTTPS', () => {
   assert.ok(csp.includes("'unsafe-eval'"));
   assert.ok(!csp.includes('upgrade-insecure-requests'));
 });
-test('source packaging rejects privileged credentials and keeps public keys usable', () => {
+test('credential scanning rejects privileged credentials and keeps public keys usable', () => {
   assert.throws(() => assertSafeContent('sb_secret_' + 'A'.repeat(30), 'fixture'));
   const token = [
     Buffer.from('{"alg":"HS256"}').toString('base64url'),

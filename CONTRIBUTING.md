@@ -40,7 +40,7 @@ Add or update a meaningful regression test when behavior changes. For visual cha
 
 With files staged, `npm run check:repo` scans the proposed commit for private environment files and recognizable credentials. CI also runs this check. It supplements careful review; it cannot detect every kind of sensitive data.
 
-Use `npm run test:security` against a configured production build when changing security headers or packaging. Run cloud tests only against your own development project; `test:cloud:managed` creates and removes disposable users, forms, and files. These tests are not run against a shared database in pull-request CI.
+Use `npm run test:security` against a configured production build when changing security headers or browser assets. Run cloud tests only against your own development project; `test:cloud:managed` creates and removes disposable users, forms, and files. These tests are not run against a shared database in pull-request CI.
 
 ## Database changes
 
