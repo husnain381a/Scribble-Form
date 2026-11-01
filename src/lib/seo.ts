@@ -4,18 +4,21 @@ import {
   GITHUB_URL,
   publicPages,
   SITE_DESCRIPTION,
+  SITE_KEYWORDS,
   SITE_NAME,
+  SITE_TITLE_PREFIX,
   SITE_URL,
 } from './site';
 import { faqs } from './site-content';
 
 export function pageMetadata(path: (typeof publicPages)[number]['path']): Metadata {
   const page = publicPages.find((entry) => entry.path === path)!;
-  const title = `${page.name} | ${SITE_NAME}`;
+  const title = `${SITE_TITLE_PREFIX} | ${page.name}`;
   const noIndex = process.env.VERCEL_ENV === 'preview';
   return {
     title: { absolute: title },
     description: page.description,
+    keywords: [...SITE_KEYWORDS, ...page.keywords],
     alternates: { canonical: absoluteUrl(path) },
     robots: {
       index: !noIndex,
@@ -87,7 +90,7 @@ export const homeSchema = {
       '@type': 'WebSite',
       '@id': `${SITE_URL}/#website`,
       name: SITE_NAME,
-      alternateName: 'Scribble Forms',
+      alternateName: ['Scribble Form', 'Scribble Forms'],
       url: absoluteUrl('/'),
       description: SITE_DESCRIPTION,
       inLanguage: 'en',

@@ -14,8 +14,18 @@ for (const path of paths) {
   const html = await response.text();
   const title = html.match(/<title>(.*?)<\/title>/s)?.[1];
   assert.ok(title && !titles.has(title), `${path}: unique title`);
+  assert.ok(title.startsWith('Scribble Form | '), `${path}: brand-first title`);
   titles.add(title);
   assert.match(html, /<meta name="description" content="[^"]{60,}"/);
+  const keywords = html.match(/<meta name="keywords" content="([^"]+)"/s)?.[1];
+  assert.ok(
+    keywords?.includes('Scribble Form') && keywords.includes('form builder'),
+    `${path}: meta keywords`,
+  );
+  const ogTitle = html.match(/<meta property="og:title" content="([^"]+)"/s)?.[1];
+  const twitterTitle = html.match(/<meta name="twitter:title" content="([^"]+)"/s)?.[1];
+  assert.equal(ogTitle, title, `${path}: matching social title`);
+  assert.equal(twitterTitle, title, `${path}: matching Twitter title`);
   const canonicalTag = html.match(/<link rel="canonical" href="([^"]+)"/s)?.[1];
   const ogUrl = html.match(/<meta property="og:url" content="([^"]+)"/s)?.[1];
   assert.ok(canonicalTag && ogUrl, `${path}: URL tags exist`);
@@ -70,6 +80,10 @@ for (const path of [
 ]) {
   const response = await fetch(origin + path);
   const html = await response.text();
+  assert.ok(
+    html.match(/<title>(.*?)<\/title>/s)?.[1].startsWith('Scribble Form | '),
+    `${path}: private page title prefix`,
+  );
   assert.ok(response.headers.get('x-robots-tag')?.includes('noindex'), `${path}: noindex header`);
   assert.ok(/<meta name="robots" content="[^"]*noindex/.test(html), `${path}: noindex meta`);
   assert.ok(!html.includes('rel="canonical"'), `${path}: no inherited home canonical`);

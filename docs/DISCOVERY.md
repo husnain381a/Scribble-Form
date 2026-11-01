@@ -4,7 +4,7 @@ Scribble's default public origin is `https://scribble-forms.vercel.app`. Set `NE
 
 ## Included
 
-- Unique titles, descriptions, self-canonical URLs, Open Graph, and large Twitter cards for the six public information pages.
+- Brand-first titles (`Scribble Form | Page topic`), descriptions, relevant meta keywords, self-canonical URLs, Open Graph, and large Twitter cards for the six public information pages. Social titles match the page titles; account pages use the same title prefix.
 - A 1200 × 630 PNG social image, an SVG favicon, and PNG logo/touch icons.
 - Server-rendered marketing content, a linked FAQ with ten full answers, a public GitHub source link, and maintainer/contribution links.
 - JSON-LD for the project, website, web application, source code, breadcrumbs, and visible FAQ answers. Static project data is serialized safely and uses the response's CSP nonce. No user form content or invented review/rating data is included.
