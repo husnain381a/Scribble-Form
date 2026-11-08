@@ -34,7 +34,7 @@
     "@fontsource-variable/dm-sans": "^5.2.8",
     "@fontsource-variable/shantell-sans": "^5.2.8",
     "@fontsource/caveat": "^5.2.8",
-    "@supabase/supabase-js": "2.118.0",
+    "@supabase/supabase-js": "2.119.0",
     "lucide-react": "^0.468.0",
     "next": "16.4.3",
     "react": "^19.2.0",
